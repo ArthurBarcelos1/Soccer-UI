@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Scoreboard Overlay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+    <!-- Placar Principal: timer à esquerda, board à direita -->
+    <div class="scoreboard">
+
+        <!-- Coluna do Cronômetro (tempo + acréscimo abaixo) -->
+        <div class="timer-col">
+            <div class="timer" id="timerDisplay">00:00</div>
+            <!-- Faixa de Acréscimos: só aparece quando o tempo vai além do limite -->
+            <div class="injury-strip" id="injuryStrip">
+                <span class="injury-extra-time" id="injuryExtraDisplay">00:00</span>
+                <span class="injury-extra-badge" id="injuryExtraBadge"></span>
+            </div>
+        </div>
+
+        <!-- Placar Board -->
+        <div class="board">
+
+            <div class="team left">
+                <!-- Logo-wrapper: cartões vermelhos ACIMA do escudo -->
+                <div class="logo-wrapper">
+                    <div class="red-cards-row home-red-cards" id="homeRedCardsContainer"></div>
+                    <img src="" class="logo" id="homeLogoImg">
+                </div>
+                <div class="shirt home"></div>
+                <span class="name" id="homeNameAbbr">URT</span>
+            </div>
+
+            <div class="score home-score" id="homeScoreBoard">0</div>
+
+            <div class="competition">
+                <img src="" id="compLogoImg">
+            </div>
+
+            <div class="score away-score" id="awayScoreBoard">0</div>
+
+            <div class="team right">
+                <span class="name" id="awayNameAbbr">URT</span>
+                <div class="shirt away"></div>
+                <div class="logo-wrapper">
+                    <div class="red-cards-row away-red-cards" id="awayRedCardsContainer"></div>
+                    <img src="" class="logo" id="awayLogoImg">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Alerta de GOL (Centro da Tela) -->
+    <div class="goal-alert-overlay" id="goalAlert">
+        <div class="goal-alert-content">
+            <div class="goal-glow-bg"></div>
+            <h1 class="goal-title">GOL!</h1>
+            <div class="goal-team-info">
+                <div class="goal-logo-circle">
+                    <img src="" class="goal-team-logo" id="goalTeamLogo">
+                </div>
+                <span class="goal-team-name" id="goalTeamName">FLAMENGO</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Banner de Substituição (Centro-Esquerdo) -->
+    <div class="side-banner sub-banner-overlay" id="subBanner">
+        <div class="side-banner-accent" id="subBannerAccent"></div>
+        <div class="side-banner-header">
+            <i class="fa-solid fa-arrows-rotate rotate-icon"></i>
+            <span>SUBSTITUIÇÃO</span>
+        </div>
+        <div class="sub-banner-body">
+            <div class="sub-player sub-out">
+                <span class="sub-arrow"><i class="fa-solid fa-circle-down"></i></span>
+                <div class="sub-player-details">
+                    <span class="player-label">SAI</span>
+                    <span class="player-name" id="subOutPlayer">10 NEYMAR</span>
+                </div>
+            </div>
+            <div class="sub-player sub-in">
+                <span class="sub-arrow"><i class="fa-solid fa-circle-up"></i></span>
+                <div class="sub-player-details">
+                    <span class="player-label">ENTRA</span>
+                    <span class="player-name" id="subInPlayer">11 RAPHINHA</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Banner de Cartão (Centro-Esquerdo) -->
+    <div class="side-banner card-banner-overlay" id="cardBanner">
+        <div class="side-banner-accent" id="cardBannerAccent"></div>
+        <div class="card-graphic-wrapper">
+            <div class="card-referee-graphic" id="cardGraphic"></div>
+        </div>
+        <div class="card-banner-details">
+            <span class="card-banner-title" id="cardBannerTitle">CARTÃO AMARELO</span>
+            <span class="card-banner-player" id="cardBannerPlayer">7 VINI JR</span>
+        </div>
+    </div>
+
+    <!-- Popup de Apresentação — slim, flutuando acima do rodapé -->
+    <div class="intro-popup-overlay" id="introPopup">
+        <div class="intro-popup-inner">
+            <div class="intro-team">
+                <div class="intro-logo-wrapper">
+                    <img src="" id="introHomeLogo" class="intro-logo">
+                </div>
+                <span class="intro-name" id="introHomeName">FLAMENGO</span>
+            </div>
+
+            <div class="intro-center">
+                <span class="intro-score" id="introHomeScore">0</span>
+                <span class="intro-divider" id="introVsOrColon">VS</span>
+                <span class="intro-score" id="introAwayScore">0</span>
+            </div>
+
+            <div class="intro-team intro-right">
+                <span class="intro-name" id="introAwayName">VASCO</span>
+                <div class="intro-logo-wrapper">
+                    <img src="" id="introAwayLogo" class="intro-logo">
+                </div>
+            </div>
+        </div>
+        <div class="intro-popup-label" id="introCompetitionTitle">AO VIVO</div>
+    </div>
+
+    <script src="js/overlay.js"></script>
+</body>
+</html>

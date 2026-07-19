@@ -1,0 +1,739 @@
+/* ==========================================================================
+   Reset & Base
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --font-sans: 'Outfit', sans-serif;
+}
+
+body {
+    font-family: var(--font-sans);
+    background: transparent;
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   Posicionamento do Placar (canto superior esquerdo para OBS)
+   ========================================================================== */
+.scoreboard {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    transform-origin: top left;
+}
+
+/* ==========================================================================
+   TIMER
+   ========================================================================== */
+.timer {
+    width: 120px;
+    height: 58px;
+    background: #FFF;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 34px;
+    font-weight: 800;
+    color: #111;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
+    font-family: var(--font-sans);
+    letter-spacing: 1px;
+    user-select: none;
+}
+
+/* ==========================================================================
+   Badge de Acréscimos
+   ========================================================================== */
+.injury-badge {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: #f59e0b;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 900;
+    padding: 4px 8px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
+    animation: injury-flash 1.2s ease-in-out infinite alternate;
+    font-family: var(--font-sans);
+    white-space: nowrap;
+    margin-left: -4px;
+}
+
+.injury-badge.visible {
+    display: flex;
+}
+
+@keyframes injury-flash {
+    0% {
+        box-shadow: 0 0 6px rgba(245, 158, 11, 0.5);
+    }
+
+    100% {
+        box-shadow: 0 0 16px rgba(245, 158, 11, 0.95);
+    }
+}
+
+/* ==========================================================================
+   PLACAR (Board)
+   ========================================================================== */
+.board {
+    height: 58px;
+    background: #ffffff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
+}
+
+.team {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 18px;
+    min-width: 200px;
+}
+
+.right {
+    justify-content: flex-end;
+}
+
+.logo {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+}
+
+.name {
+    color: rgb(0, 0, 0);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    font-family: var(--font-sans);
+}
+
+/* ==========================================================================
+   Shirt (círculo da cor do time)
+   ========================================================================== */
+.shirt {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    flex-shrink: 0;
+}
+
+.home {
+    background: #000000;
+}
+
+.away {
+    background: #000000;
+}
+
+/* ==========================================================================
+   Cartões Vermelhos Acumulados no Placar
+   ========================================================================== */
+.red-cards-container {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.red-card-chip {
+    width: 10px;
+    height: 14px;
+    background: #ef4444;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    animation: card-appear 0.3s ease;
+}
+
+@keyframes card-appear {
+    from {
+        transform: scale(0) rotate(10deg);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+/* ==========================================================================
+   PLACARES (Score)
+   ========================================================================== */
+.score {
+    width: 78px;
+    height: 58px;
+    background: #4EF2C5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-weight: 900;
+    color: #111;
+    font-family: var(--font-sans);
+    position: relative;
+    overflow: hidden;
+}
+
+.home-score {
+    border-radius: 10px 0px 0px 10px;
+}
+
+.away-score {
+    border-radius: 0px 10px 10px 0px;
+}
+
+/* Animação de Gol no Placar */
+.score.goal-flash {
+    animation: goal-score-flash 0.8s ease forwards;
+}
+
+@keyframes goal-score-flash {
+    0% {
+        background: #4EF2C5;
+    }
+
+    20% {
+        background: #faff00;
+        box-shadow: inset 0 0 24px rgba(255, 255, 0, 0.8);
+    }
+
+    40% {
+        background: #ff9900;
+        box-shadow: inset 0 0 24px rgba(255, 120, 0, 0.8);
+    }
+
+    60% {
+        background: #4EF2C5;
+    }
+
+    80% {
+        background: #faff00;
+        box-shadow: inset 0 0 16px rgba(255, 255, 0, 0.5);
+    }
+
+    100% {
+        background: #4EF2C5;
+    }
+}
+
+/* ==========================================================================
+   LOGO CENTRAL (Competition)
+   ========================================================================== */
+.competition {
+    width: 74px;
+    height: 100px;
+    background: #FFF;
+    border-radius: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 -8px;
+    z-index: 2;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .35);
+}
+
+.competition img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+/* ==========================================================================
+   ALERTA DE GOL (Centralizado na Tela)
+   ========================================================================== */
+.goal-alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0;
+}
+
+.goal-alert-overlay.show {
+    animation: goal-overlay-anim 4.5s ease forwards;
+}
+
+@keyframes goal-overlay-anim {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    10% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    18% {
+        transform: scale(1);
+    }
+
+    80% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.1);
+    }
+}
+
+.goal-alert-content {
+    position: relative;
+    text-align: center;
+    padding: 40px 60px;
+    border-radius: 24px;
+    background: rgba(0, 0, 0, 0.82);
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(16px);
+    overflow: hidden;
+    min-width: 340px;
+}
+
+.goal-glow-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(250, 255, 0, 0.22) 0%, transparent 70%);
+    animation: goal-glow-pulse 0.6s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes goal-glow-pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0.9);
+        opacity: 0.7;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.15);
+        opacity: 1;
+    }
+}
+
+.goal-title {
+    font-family: var(--font-sans);
+    font-size: 6rem;
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1;
+    background: linear-gradient(135deg, #faff00 0%, #ff9900 50%, #faff00 100%);
+    background-size: 200% auto;
+    -webkit-text-fill-color: transparent;
+    animation: goal-text-shine 1.2s linear infinite;
+    position: relative;
+    z-index: 1;
+    text-shadow: none;
+}
+
+@keyframes goal-text-shine {
+    0% {
+        background-position: 0% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+.goal-team-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+.goal-logo-circle {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: #fff;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.goal-team-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.goal-team-name {
+    font-family: var(--font-sans);
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* ==========================================================================
+   BANNER DE SUBSTITUIÇÃO (Meio Inferior)
+   ========================================================================== */
+.sub-banner-overlay {
+    position: fixed;
+    bottom: -160px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    background: rgba(14, 14, 20, 0.95);
+    border-radius: 14px 14px 0 0;
+    overflow: hidden;
+    box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-bottom: none;
+    z-index: 90;
+    pointer-events: none;
+    transition: bottom 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sub-banner-overlay.show {
+    bottom: 0;
+}
+
+.sub-banner-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: #fff;
+    background: rgba(16, 185, 129, 0.2);
+}
+
+.rotate-icon {
+    animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.sub-banner-body {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    gap: 12px;
+}
+
+.sub-player {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.sub-out .sub-arrow {
+    font-size: 1.6rem;
+    color: #ef4444;
+}
+
+.sub-in .sub-arrow {
+    font-size: 1.6rem;
+    color: #10b981;
+}
+
+.sub-player-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.player-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    font-family: var(--font-sans);
+}
+
+.player-name {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #fff;
+    font-family: var(--font-sans);
+    letter-spacing: 0.02em;
+}
+
+.sub-banner-team-bar {
+    height: 5px;
+    background: #10b981;
+}
+
+/* ==========================================================================
+   BANNER DE CARTÃO (Meio Inferior)
+   ========================================================================== */
+.card-banner-overlay {
+    position: fixed;
+    bottom: -160px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    background: rgba(14, 14, 20, 0.95);
+    border-radius: 14px 14px 0 0;
+    overflow: hidden;
+    box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-bottom: none;
+    z-index: 90;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    transition: bottom 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-banner-overlay.show {
+    bottom: 0;
+}
+
+.card-graphic-wrapper {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.card-referee-graphic {
+    width: 34px;
+    height: 46px;
+    border-radius: 5px;
+    background: #facc15;
+    box-shadow: 0 4px 14px rgba(250, 204, 21, 0.6);
+    transform-origin: bottom center;
+}
+
+.card-referee-graphic.red {
+    background: #ef4444;
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.6);
+}
+
+.card-referee-graphic.yellow {
+    animation: card-wave-anim 0.5s ease-out forwards;
+}
+
+.card-referee-graphic.red.showing {
+    animation: card-wave-anim 0.5s ease-out forwards;
+}
+
+@keyframes card-wave-anim {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    20% {
+        transform: rotate(-25deg);
+    }
+
+    50% {
+        transform: rotate(12deg);
+    }
+
+    75% {
+        transform: rotate(-8deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.card-banner-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 12px;
+}
+
+.card-banner-title {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: #9ca3af;
+    text-transform: uppercase;
+}
+
+.card-banner-player {
+    font-family: var(--font-sans);
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 0.02em;
+}
+
+.card-banner-team-bar {
+    height: 5px;
+    background: #facc15;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+/* ==========================================================================
+   POPUP DE APRESENTAÇÃO CENTRAL (Meio Inferior)
+   ========================================================================== */
+.intro-popup-overlay {
+    position: fixed;
+    bottom: -260px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    background: rgba(10, 10, 14, 0.97);
+    border-radius: 20px 20px 0 0;
+    overflow: hidden;
+    box-shadow: 0 -10px 50px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: none;
+    z-index: 80;
+    pointer-events: none;
+    transition: bottom 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.intro-popup-overlay.show {
+    bottom: 0;
+}
+
+.intro-popup-header {
+    padding: 12px 24px;
+    background: rgba(59, 130, 246, 0.15);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.intro-competition-title {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: #93c5fd;
+    text-transform: uppercase;
+}
+
+.intro-popup-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 32px;
+    gap: 16px;
+}
+
+.intro-team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.intro-logo-wrapper {
+    width: 80px;
+    height: 80px;
+    background: #fff;
+    border-radius: 50%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.intro-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.intro-name {
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: #fff;
+    text-align: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.intro-vs-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.intro-score-display {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-sans);
+    font-size: 3rem;
+    font-weight: 900;
+    color: #fff;
+}
+
+.intro-vs-text {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #6b7280;
+    letter-spacing: 0.05em;
+}
+
+.intro-time {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #6b7280;
+    text-transform: uppercase;
+}

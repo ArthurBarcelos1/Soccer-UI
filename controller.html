@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Controle do Placar</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Customizado -->
+    <link rel="stylesheet" href="css/controller.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-logo">
+            <i class="fa-solid fa-circle-play pulse-icon"></i>
+            <div>
+                <h1>Painel de Controle</h1>
+                <p>Operador do Placar de Transmissão</p>
+            </div>
+        </div>
+        <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span class="status-text">Sincronizado em tempo real</span>
+        </div>
+    </header>
+
+    <div class="main-container">
+        
+        <!-- Bloco do Cronômetro -->
+        <div class="card timer-card">
+            <div class="card-header">
+                <i class="fa-regular fa-clock"></i>
+                <h2>Tempo de Jogo</h2>
+            </div>
+            <div class="card-body">
+                <div class="period-selector">
+                    <button type="button" class="period-btn active" data-value="1">1º Tempo</button>
+                    <button type="button" class="period-btn" data-value="2">2º Tempo</button>
+                    <!-- Mantendo o select original oculto para retrocompatibilidade se necessário -->
+                    <select id="half" style="display:none;">
+                        <option value="1" selected>1º Tempo</option>
+                        <option value="2">2º Tempo</option>
+                    </select>
+                </div>
+                
+                <div class="timer-display-wrapper">
+                    <input type="text" id="timer" value="00:00" placeholder="00:00" title="Clique e digite para ajustar (ex: 12:34)">
+                    <span class="edit-badge"><i class="fa-regular fa-pen-to-square"></i> Editar</span>
+                </div>
+                <div class="timer-tip">Aperte Enter ou clique fora para aplicar o tempo digitado</div>
+
+                <div class="form-group injury-group">
+                    <label>Acréscimos (Minutos)</label>
+                    <div class="injury-adjuster">
+                        <button type="button" class="injury-btn dec-injury" id="decInjury"><i class="fa-solid fa-minus"></i></button>
+                        <input type="number" id="injuryTime" min="0" max="15" value="0" readonly>
+                        <button type="button" class="injury-btn inc-injury" id="incInjury"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <button type="button" id="confirmInjury" class="btn-confirm-injury"><i class="fa-solid fa-circle-check"></i> Confirmar Acréscimos</button>
+                </div>
+
+                <div class="quick-adjustments">
+                    <button type="button" class="adjust-btn" id="adjustSub1m">-1 Min</button>
+                    <button type="button" class="adjust-btn" id="adjustAdd1m">+1 Min</button>
+                    <button type="button" class="adjust-btn" id="adjustSub10s">-10s</button>
+                    <button type="button" class="adjust-btn" id="adjustAdd10s">+10s</button>
+                </div>
+
+                <div class="timer-controls">
+                    <button type="button" id="startTimer" class="btn-control btn-start"><i class="fa-solid fa-play"></i> Iniciar</button>
+                    <button type="button" id="pauseTimer" class="btn-control btn-pause"><i class="fa-solid fa-pause"></i> Pausar</button>
+                    <button type="button" id="resetTimer" class="btn-control btn-reset"><i class="fa-solid fa-rotate-left"></i> Resetar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bloco do Placar -->
+        <div class="card score-card">
+            <div class="card-header">
+                <i class="fa-solid fa-gamepad"></i>
+                <h2>Placar</h2>
+            </div>
+            <div class="card-body">
+                <div class="score-row">
+                    <!-- Casa -->
+                    <div class="team-score-block">
+                        <span class="team-label text-home">CASA</span>
+                        <div class="score-adjuster">
+                            <button type="button" class="score-adjust-btn dec" data-target="homeScore"><i class="fa-solid fa-minus"></i></button>
+                            <input type="number" id="homeScore" min="0" value="0">
+                            <button type="button" class="score-adjust-btn inc" data-target="homeScore"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="score-separator">:</div>
+
+                    <!-- Visitante -->
+                    <div class="team-score-block">
+                        <span class="team-label text-away">VISITANTE</span>
+                        <div class="score-adjuster">
+                            <button type="button" class="score-adjust-btn dec" data-target="awayScore"><i class="fa-solid fa-minus"></i></button>
+                            <input type="number" id="awayScore" min="0" value="0">
+                            <button type="button" class="score-adjust-btn inc" data-target="awayScore"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="center-actions">
+                    <button type="button" id="resetScores" class="btn-action-secondary"><i class="fa-solid fa-arrows-rotate"></i> Zerar Placar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Time da Casa -->
+        <div class="card team-card card-home">
+            <div class="card-header border-home">
+                <i class="fa-solid fa-house"></i>
+                <h2>Time da Casa</h2>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="homeName">Nome Completo</label>
+                    <input type="text" id="homeName" placeholder="Ex: Time da Casa">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group size-2">
+                        <label for="homeAbbr">Sigla</label>
+                        <input type="text" id="homeAbbr" placeholder="Ex: CAS" maxlength="3">
+                    </div>
+                    <div class="form-group size-1">
+                        <label for="homeColor">Cor</label>
+                        <div class="color-picker-container">
+                            <input type="color" id="homeColor" value="#1565ff">
+                            <span class="color-picker-preview" id="homeColorPreview"></span>
+                        </div>
+                    </div>
+                    <div class="form-group size-1">
+                        <label for="homeRedCards">Expulsões</label>
+                        <div class="number-stepper">
+                            <input type="number" id="homeRedCards" min="0" max="5" value="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Escudo</label>
+                    <div class="custom-file-upload">
+                        <input type="file" id="homeLogo" accept="image/*">
+                        <label for="homeLogo" class="file-label">
+                            <i class="fa-solid fa-image"></i>
+                            <span>Selecionar Escudo</span>
+                        </label>
+                    </div>
+                    <div class="logo-preview-area" id="homeLogoPreviewContainer">
+                        <div class="logo-circle">
+                            <img src="" id="homeLogoPreview" alt="Escudo Casa">
+                        </div>
+                        <button type="button" class="btn-remove-logo" data-target="homeLogo"><i class="fa-solid fa-trash"></i> Remover</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Time Visitante -->
+        <div class="card team-card card-away">
+            <div class="card-header border-away">
+                <i class="fa-solid fa-plane"></i>
+                <h2>Time Visitante</h2>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="awayName">Nome Completo</label>
+                    <input type="text" id="awayName" placeholder="Ex: Time Visitante">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group size-2">
+                        <label for="awayAbbr">Sigla</label>
+                        <input type="text" id="awayAbbr" placeholder="Ex: VIS" maxlength="3">
+                    </div>
+                    <div class="form-group size-1">
+                        <label for="awayColor">Cor</label>
+                        <div class="color-picker-container">
+                            <input type="color" id="awayColor" value="#ff2b2b">
+                            <span class="color-picker-preview" id="awayColorPreview"></span>
+                        </div>
+                    </div>
+                    <div class="form-group size-1">
+                        <label for="awayRedCards">Expulsões</label>
+                        <div class="number-stepper">
+                            <input type="number" id="awayRedCards" min="0" max="5" value="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Escudo</label>
+                    <div class="custom-file-upload">
+                        <input type="file" id="awayLogo" accept="image/*">
+                        <label for="awayLogo" class="file-label">
+                            <i class="fa-solid fa-image"></i>
+                            <span>Selecionar Escudo</span>
+                        </label>
+                    </div>
+                    <div class="logo-preview-area" id="awayLogoPreviewContainer">
+                        <div class="logo-circle">
+                            <img src="" id="awayLogoPreview" alt="Escudo Visitante">
+                        </div>
+                        <button type="button" class="btn-remove-logo" data-target="awayLogo"><i class="fa-solid fa-trash"></i> Remover</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Competição -->
+        <div class="card competition-card">
+            <div class="card-header">
+                <i class="fa-solid fa-trophy"></i>
+                <h2>Competição</h2>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Logo do Campeonato</label>
+                    <div class="custom-file-upload">
+                        <input type="file" id="competitionLogo" accept="image/*">
+                        <label for="competitionLogo" class="file-label">
+                            <i class="fa-solid fa-image"></i>
+                            <span>Selecionar Logo</span>
+                        </label>
+                    </div>
+                    <div class="logo-preview-area" id="competitionLogoPreviewContainer">
+                        <div class="logo-rect">
+                            <img src="" id="competitionLogoPreview" alt="Logo Competição">
+                        </div>
+                        <button type="button" class="btn-remove-logo" data-target="competitionLogo"><i class="fa-solid fa-trash"></i> Remover</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Eventos de Transmissão -->
+        <div class="card events-card">
+            <div class="card-header">
+                <i class="fa-solid fa-tower-broadcast"></i>
+                <h2>Eventos de Transmissão</h2>
+            </div>
+            <div class="card-body">
+                <!-- Abas dos Eventos -->
+                <div class="event-tabs">
+                    <button type="button" class="event-tab-btn active" data-tab="sub-tab">Substituição</button>
+                    <button type="button" class="event-tab-btn" data-tab="card-tab">Cartão</button>
+                    <button type="button" class="event-tab-btn" data-tab="intro-tab">Apresentação</button>
+                </div>
+
+                <!-- Aba de Substituição -->
+                <div class="event-tab-content active" id="sub-tab">
+                    <div class="form-group">
+                        <label>Time da Substituição</label>
+                        <select id="subTeam" class="form-select">
+                            <option value="home">Time da Casa</option>
+                            <option value="away">Time Visitante</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group size-1">
+                            <label for="subOut">Sai (Nº/Nome)</label>
+                            <input type="text" id="subOut" placeholder="Ex: 10 Neymar">
+                        </div>
+                        <div class="form-group size-1">
+                            <label for="subIn">Entra (Nº/Nome)</label>
+                            <input type="text" id="subIn" placeholder="Ex: 11 Raphinha">
+                        </div>
+                    </div>
+                    <button type="button" id="triggerSub" class="btn-event btn-sub"><i class="fa-solid fa-arrows-left-right"></i> Exibir Substituição</button>
+                </div>
+
+                <!-- Aba de Cartão -->
+                <div class="event-tab-content" id="card-tab">
+                    <div class="form-group">
+                        <label>Time do Jogador</label>
+                        <select id="cardTeam" class="form-select">
+                            <option value="home">Time da Casa</option>
+                            <option value="away">Time Visitante</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group size-2">
+                            <label for="cardPlayer">Jogador (Nº/Nome)</label>
+                            <input type="text" id="cardPlayer" placeholder="Ex: 7 Vini Jr">
+                        </div>
+                        <div class="form-group size-1">
+                            <label for="cardType">Cartão</label>
+                            <select id="cardType" class="form-select">
+                                <option value="yellow">Amarelo</option>
+                                <option value="red">Vermelho</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="button" id="triggerCard" class="btn-event btn-card"><i class="fa-solid fa-address-card"></i> Exibir Cartão</button>
+                </div>
+
+                <!-- Aba de Apresentação -->
+                <div class="event-tab-content" id="intro-tab">
+                    <div class="form-group">
+                        <label for="introTitle">Subtítulo Customizado (Ex: Amistoso Internacional)</label>
+                        <input type="text" id="introTitle" placeholder="Campeonato / Descrição">
+                    </div>
+                    <div class="toggle-container">
+                        <span class="toggle-label">Apresentação Central:</span>
+                        <label class="switch">
+                            <input type="checkbox" id="showIntro">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <p class="intro-description">Ative para mostrar a apresentação central (placar expandido/apresentação) na tela.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Barra de Controle Inferior para Ação Manual se desejado, mas tudo auto-salva -->
+    <footer class="main-footer">
+        <button id="apply" class="btn-apply-changes"><i class="fa-solid fa-circle-check"></i> Forçar Sincronização Manual</button>
+    </footer>
+
+    <script src="js/controller.js"></script>
+
+</body>
+</html>
